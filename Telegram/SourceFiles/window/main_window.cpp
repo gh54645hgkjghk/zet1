@@ -7,6 +7,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 */
 #include "window/main_window.h"
 
+#include "telewhite/telewhite_snowfall.h"
 #include "api/api_updates.h"
 #include "storage/localstorage.h"
 #include "platform/platform_specific.h"
@@ -576,6 +577,8 @@ void MainWindow::init() {
 
 	updateTitle();
 	updateWindowIcon();
+
+	Telewhite::SetupSnowfall(bodyWidget());
 }
 
 void MainWindow::handleStateChanged(Qt::WindowState state) {
@@ -914,9 +917,9 @@ void MainWindow::updateTitle() {
 		: Dialogs::Key();
 	const auto thread = key ? key.thread() : nullptr;
 	if (!thread) {
-			setTitle((user.isEmpty() ? u"Telewhite"_q : user) + added + suffix);
-			return;
-		}
+		setTitle((user.isEmpty() ? u"Telewhite"_q : user) + added + suffix);
+		return;
+	}
 	const auto history = thread->owningHistory();
 	const auto topic = thread->asTopic();
 	const auto name = topic
