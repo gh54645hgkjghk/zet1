@@ -133,6 +133,10 @@ auto EmptyMessageDraftSources()
 	return cWorkingDir() + u"tdata/"_q;
 }
 
+[[nodiscard]] QString TelewhiteArchiveName() {
+	return u"telewhite_archive"_q;
+}
+
 [[nodiscard]] QString ComputeDatabasePath(const QString &dataName) {
 	return BaseGlobalPath()
 		+ "user_" + dataName
@@ -283,6 +287,9 @@ base::flat_set<QString> Account::collectGoodNames() const {
 		"maps",
 		"configs",
 	};
+	for (const auto suffix : { '0', '1', 's' }) {
+		result.emplace(TelewhiteArchiveName() + suffix);
+	}
 	const auto push = [&](FileKey key) {
 		if (!key) {
 			return;
